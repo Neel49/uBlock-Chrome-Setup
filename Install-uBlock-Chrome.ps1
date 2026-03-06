@@ -16,7 +16,7 @@ $ErrorActionPreference = "Stop"
 
 # --- Config ---
 $uBlockRepo = "gorhill/uBlock"
-$uBlockInstallDir = "$env:LOCALAPPDATA\uBlock0"
+$uBlockInstallDir = "$env:USERPROFILE\Downloads\uBlock0"
 $ChromePaths = @(
     "${env:ProgramFiles}\Google\Chrome\Application\chrome.exe",
     "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
@@ -118,7 +118,8 @@ Start-Sleep -Seconds 2
 explorer.exe $uBlockFolder
 
 Write-Host "`n=== DONE ===" -ForegroundColor Green
-Write-Host "1. In Chrome, click 'Load unpacked'"
-Write-Host "2. Select the folder that just opened (or paste from clipboard)"
-Write-Host "3. Always launch Chrome from the new shortcut: $ShortcutPath"
-Write-Host "4. After Chrome updates, close ALL Chrome tasks and launch from the shortcut again."
+Write-Host "1. In Chrome (chrome://extensions/), turn on Developer mode in the top right corner"
+Write-Host "2. Click 'Load unpacked'"
+Write-Host "3. Select the folder that just opened (or paste from clipboard)"
+Write-Host "4. Always launch Chrome from the new shortcut: $ShortcutPath"
+Write-Host "5. After Chrome updates, close ALL Chrome tasks and launch from the shortcut again."
