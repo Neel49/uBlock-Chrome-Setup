@@ -20,9 +20,9 @@ $uBlockRepo = "gorhill/uBlock"
 # Use Shell to get actual Downloads path (handles OneDrive, redirected folders)
 try {
     $shell = New-Object -ComObject Shell.Application
-    $uBlockInstallDir = Join-Path $shell.Namespace('shell:Downloads').Self.Path "uBlock0"
+    $downloadsPath = $shell.Namespace('shell:Downloads').Self.Path
 } catch {
-    $uBlockInstallDir = Join-Path $env:USERPROFILE "Downloads\uBlock0"
+    $downloadsPath = Join-Path $env:USERPROFILE "Downloads"
 }
 $ChromePaths = @(
     "${env:ProgramFiles}\Google\Chrome\Application\chrome.exe",
@@ -76,18 +76,16 @@ Write-Host "Downloading $($chromiumAsset.name)..." -ForegroundColor Cyan
 Invoke-WebRequest -Uri $chromiumAsset.browser_download_url -OutFile $zipPath -UseBasicParsing
 
 # --- Extract ---
-if (Test-Path $uBlockInstallDir) { Remove-Item $uBlockInstallDir -Recurse -Force }
-New-Item -ItemType Directory -Path $uBlockInstallDir -Force | Out-Null
-Expand-Archive -Path $zipPath -DestinationPath $uBlockInstallDir -Force
+# Extract to temp, move extension folder to Downloads\uBlock0.chromium (no nested uBlock0)
+$tempExtract = "$env:TEMP\uBlock0-extract"
+if (Test-Path $tempExtract) { Remove-Item $tempExtract -Recurse -Force }
+Expand-Archive -Path $zipPath -DestinationPath $tempExtract -Force
 Remove-Item $zipPath -Force
-
-# Find the extracted folder (zip may contain uBlock0.chromium or similar)
-$extractedFolder = Get-ChildItem $uBlockInstallDir -Directory | Select-Object -First 1
-if ($extractedFolder) {
-    $uBlockFolder = $extractedFolder.FullName
-} else {
-    $uBlockFolder = $uBlockInstallDir
-}
+$extracted = Get-ChildItem $tempExtract -Directory | Select-Object -First 1
+$uBlockFolder = Join-Path $downloadsPath "uBlock0.chromium"
+if (Test-Path $uBlockFolder) { Remove-Item $uBlockFolder -Recurse -Force }
+if ($extracted) { Move-Item $extracted.FullName $uBlockFolder -Force } else { Move-Item $tempExtract $uBlockFolder -Force }
+if (Test-Path $tempExtract) { Remove-Item $tempExtract -Recurse -Force -ErrorAction SilentlyContinue }
 Write-Host "uBlock extracted to: $uBlockFolder" -ForegroundColor Green
 
 # --- Enable Developer mode in Chrome preferences ---
