@@ -13,10 +13,17 @@
 #>
 
 $ErrorActionPreference = "Stop"
+Write-Host "uBlock Chrome Setup v2 (Downloads folder, Developer mode)" -ForegroundColor Magenta
 
 # --- Config ---
 $uBlockRepo = "gorhill/uBlock"
-$uBlockInstallDir = "$env:USERPROFILE\Downloads\uBlock0"
+# Use Shell to get actual Downloads path (handles OneDrive, redirected folders)
+try {
+    $shell = New-Object -ComObject Shell.Application
+    $uBlockInstallDir = Join-Path $shell.Namespace('shell:Downloads').Self.Path "uBlock0"
+} catch {
+    $uBlockInstallDir = Join-Path $env:USERPROFILE "Downloads\uBlock0"
+}
 $ChromePaths = @(
     "${env:ProgramFiles}\Google\Chrome\Application\chrome.exe",
     "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
