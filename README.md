@@ -7,13 +7,13 @@ One-command setup for uBlock Origin on Chrome with the Manifest V2 workaround (C
 **PowerShell** (close Chrome first, then run):
 
 ```powershell
-irm https://raw.githubusercontent.com/neel49/uBlock-Chrome-Setup/main/Install-uBlock-Chrome.ps1 | iex
+irm https://raw.githubusercontent.com/Neel49/uBlock-Chrome-Setup/main/Install-uBlock-Chrome.ps1 | iex
 ```
 
 **CMD** (one line):
 
 ```cmd
-powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/neel49/uBlock-Chrome-Setup/main/Install-uBlock-Chrome.ps1 | iex"
+powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/Neel49/uBlock-Chrome-Setup/main/Install-uBlock-Chrome.ps1 | iex"
 ```
 
 ## What It Does
