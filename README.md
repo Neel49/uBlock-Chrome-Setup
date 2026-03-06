@@ -7,16 +7,26 @@ One-command setup for uBlock Origin on Chrome with the Manifest V2 workaround (C
 **PowerShell** (close Chrome first, then run):
 
 ```powershell
-irm https://raw.githubusercontent.com/Neel49/uBlock-Chrome-Setup/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/Neel49/uBlock-Chrome-Setup/main/Install-uBlock-Chrome.ps1 | iex
+```
+
+**If that fails (404/cache), try API bypass:**
+
+```powershell
+$j=irm "https://api.github.com/repos/Neel49/uBlock-Chrome-Setup/contents/Install-uBlock-Chrome.ps1"; iex ([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($j.content)))
+```
+
+**Or jsDelivr CDN:**
+
+```powershell
+irm https://cdn.jsdelivr.net/gh/Neel49/uBlock-Chrome-Setup@main/Install-uBlock-Chrome.ps1 | iex
 ```
 
 **CMD** (one line):
 
 ```cmd
-powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/Neel49/uBlock-Chrome-Setup/main/install.ps1 | iex"
+powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/Neel49/uBlock-Chrome-Setup/main/Install-uBlock-Chrome.ps1 | iex"
 ```
-
-The bootstrap fetches the latest script with cache-busting so you always get the current version.
 
 ## What It Does
 
